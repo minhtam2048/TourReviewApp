@@ -25,6 +25,7 @@ class NavBar extends Component {
                         DoraTourist
                     </Menu.Item>
                     <Menu.Item as={NavLink} to='/blogs' name="Blogs"/>
+                    <Menu.Item as={NavLink} to='/test' name="Test Area"/>
                     <Menu.Item>
                         <Button as={Link} to='/createBlog' floated="right" positive inverted content="Create Blog" />
                     </Menu.Item>

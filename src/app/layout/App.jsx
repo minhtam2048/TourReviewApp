@@ -8,6 +8,7 @@ import BlogDetailedPage from '../../features/blog/BlogDetail/BlogDetailedPage';
 import BlogForm from '../../features/blog/BlogForm/BlogForm';
 import {UserDetailedPage} from '../../features/user/UserDetailed/UserDetailedpage';
 import SettingsDashBoard from '../../features/user/Settings/SettingsDashBoard';
+import TestComponent from '../../features/testarea/TestComponent';
 
 export default class App extends Component {
     render() {
@@ -25,6 +26,7 @@ export default class App extends Component {
                         <Route path='/profile/:id' component={UserDetailedPage}/>
                         <Route path='/createBlog' component={BlogForm} />
                         <Route path='/settings' component={SettingsDashBoard} />
+                        <Route path='/test' component={TestComponent}/>
                     </Container>
                 </Fragment>
                 )} 

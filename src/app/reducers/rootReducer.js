@@ -1,14 +1,8 @@
-import { combineReducer } from 'redux';
-import { reducer as FormReducer } from 'redux-form';
-import { reducer as ToastrReducer } from 'react-redux-toastr';
-import { firebaseReducer } from 'react-redux-firebase';
-import { firestoreReducer } from 'redux-firestore';
+import { combineReducers } from 'redux';
+import test from '../../features/testarea/test';
 
-const rootReducer = combineReducer({
-    firebase: firebaseReducer,
-    firestore: firestoreReducer,
-    form: FormReducer,
-    toastr: ToastrReducer    
+const rootReducer = combineReducers({
+    test: test
 });
 
 export default rootReducer;
