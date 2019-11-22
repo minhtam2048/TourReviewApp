@@ -7,6 +7,7 @@ import HomePage from '../../features/home/HomePage';
 import BlogDetailedPage from '../../features/blog/BlogDetail/BlogDetailedPage';
 import BlogForm from '../../features/blog/BlogForm/BlogForm';
 import {UserDetailedPage} from '../../features/user/UserDetailed/UserDetailedpage';
+import SettingsDashBoard from '../../features/user/Settings/SettingsDashBoard';
 
 export default class App extends Component {
     render() {
@@ -23,6 +24,7 @@ export default class App extends Component {
                         <Route path='/blogs/:id' component={BlogDetailedPage} />
                         <Route path='/profile/:id' component={UserDetailedPage}/>
                         <Route path='/createBlog' component={BlogForm} />
+                        <Route path='/settings' component={SettingsDashBoard} />
                     </Container>
                 </Fragment>
                 )} 

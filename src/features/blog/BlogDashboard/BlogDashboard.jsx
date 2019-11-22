@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Grid, Button } from 'semantic-ui-react';
 import BlogList from '../BlogList/BlogList';
 import BlogForm from '../BlogForm/BlogForm';
-import { cuid } from 'cuid';
 
 const blogsFromDashBoard = [
     {

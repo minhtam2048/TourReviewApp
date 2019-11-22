@@ -1,11 +1,22 @@
 import React, { Component } from 'react'
 import { Menu, Button, Container } from 'semantic-ui-react'
-import { NavLink, Link } from 'react-router-dom'
-import SignedOutMenu from '../menu/SignedOutMenu'
-import SignedInMenu from '../menu/SignedInMenu'
+import { NavLink, Link, withRouter } from 'react-router-dom'
+import SignedOutMenu from '../Menus/SignedOutMenu'
+import SignedInMenu from '../Menus/SignedInMenu'
 
 class NavBar extends Component {
+    state = {
+        authenticated: true
+    };
+
+    handleSignIn = () => this.setState({authenticated : true });
+    handleSignOut = () => { 
+        this.setState({ authenticated : false }); 
+        this.props.history.push('/');
+    }
+
     render() {
+        const {authenticated} = this.state;
         return (
             <Menu inverted>
                 <Container>
@@ -17,12 +28,13 @@ class NavBar extends Component {
                     <Menu.Item>
                         <Button as={Link} to='/createBlog' floated="right" positive inverted content="Create Blog" />
                     </Menu.Item>
-                    <SignedInMenu />
-                    <SignedOutMenu />
+                    {authenticated ? <SignedInMenu signOut={this.handleSignOut} /> : 
+                    <SignedOutMenu signIn={this.handleSignIn} />}
                 </Container>
             </Menu>
         )
     }
 }
 
-export default NavBar;
+// High Order Component => return new NavBar component
+export default withRouter(NavBar);
