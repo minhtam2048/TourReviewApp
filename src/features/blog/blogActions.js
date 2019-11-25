@@ -4,7 +4,7 @@ export const createBlog = (blog) => {
     return {
         type: CREATE_BLOG,
         payload: {
-            blog
+            blog  
         }
     }
 }

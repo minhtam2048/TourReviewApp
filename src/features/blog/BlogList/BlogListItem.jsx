@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Segment, Item, Icon, List, Button } from 'semantic-ui-react';
 import BlogListCommentor from './BlogListCommentor';
+import {Link} from'react-router-dom';
 
 class BlogListItem extends Component {
     render() {
@@ -30,8 +31,8 @@ class BlogListItem extends Component {
                         <Icon name="marker"/> {blog.address}
                         <Button onClick={() => deleteBlog(blog.id)} 
                         as='a' color='red' floated='right' content='Delete'/>
-                        <Button onClick={() => selectBlog(blog)} 
-                        as='a' color='teal' floated='right' content='View'/>
+                        <Button as={Link} to={`/blogs/${blog.id}`}
+                         color='teal' floated='right' content='View'/>
                         
                     </span>
                 </Segment>

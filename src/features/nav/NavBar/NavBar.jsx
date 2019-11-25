@@ -24,7 +24,7 @@ class NavBar extends Component {
                         <img src="assets/logo.png" alt="logo"/>
                         DoraTourist
                     </Menu.Item>
-                    <Menu.Item as={NavLink} to='/blogs' name="Blogs"/>
+                    <Menu.Item as={NavLink} exact to='/blogs' name="Blogs"/>
                     <Menu.Item as={NavLink} to='/test' name="Test Area"/>
                     <Menu.Item>
                         <Button as={Link} to='/createBlog' floated="right" positive inverted content="Create Blog" />

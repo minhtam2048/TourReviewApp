@@ -2,105 +2,22 @@ import React, { Component } from 'react';
 import { Grid, Button } from 'semantic-ui-react';
 import BlogList from '../BlogList/BlogList';
 import BlogForm from '../BlogForm/BlogForm';
+import {connect} from 'react-redux';
+import {createBlog, updateBlog, deleteBlog} from "../blogActions";
 
-const blogsFromDashBoard = [
-    {
-        id: '1',
-        title: 'Trip to Genza - Tokyo',
-        date: '2019-06-22',
-        description: 'Lorem ipsum dolor sit amet, sapien elit. Quis vel duis hendrerit voluptate magna at, vivamus augue fusce dictumst nulla labore pharetra, vestibulum nam enim ipsum dolor integer dignissim, mi integer. Id dui sodales. Tincidunt neque orci nulla gravida risus donec, montes orci viverra nascetur in lorem vel.',
-        city: 'Tokyo',
-        address: 'Lorem ipsum dolor sit amet',
-        postedBy: 'Tachibana',
-        postPhotoURL: 'https://randomuser.me/api/portraits/women/22.jpg',
-        commentors: [
-            {
-                id: 'a',
-                name: 'Lynch',
-                photoURL: 'https://randomuser.me/api/portraits/men/75.jpg',
-                content: 'Thank you'
-            },
-            {
-                id: 'b',
-                name: 'Obama',
-                photoURL: 'https://randomuser.me/api/portraits/women/18.jpg',
-                content: 'Must visit this place!'
-            },
-            {
-                id: 'c',
-                name: 'Noma',
-                photoURl: 'https://randomuser.me/api/protraits/women/37.jpg',
-                content: 'wow, so beautiful!!'
-            }
 
-        ]
-    },
-    {
-        id: '2',
-        title: 'Shinee Turkey',
-        date: '2019-06-22',
-        description: 'Lorem ipsum dolor sit amet, sapien elit. Quis vel duis hendrerit voluptate magna at, vivamus augue fusce dictumst nulla labore pharetra, vestibulum nam enim ipsum dolor integer dignissim, mi integer. Id dui sodales. Tincidunt neque orci nulla gravida risus donec, montes orci viverra nascetur in lorem vel.',
-        city: 'Tokyo',
-        address: 'Lorem ipsum dolor sit amet',
-        postedBy: 'Aoi',
-        postPhotoURL: 'https://randomuser.me/api/portraits/women/40.jpg',
-        commentors: [
-            {
-                id: 'a',
-                name: 'Lynch',
-                photoURL: 'https://randomuser.me/api/portraits/men/22.jpg',
-                content: 'Thank you'
-            },
-            {
-                id: 'b',
-                name: 'Obama',
-                photoURL: 'https://randomuser.me/api/portraits/women/18.jpg',
-                content: 'Must visit this place!'
-            },
-            {
-                id: 'c',
-                name: 'Noma',
-                photoURl: 'https://randomuser.me/api/portraits/women/37.jpg',
-                content: 'wow, so beautiful!!'
-            }
+const mapStateToProps = (state) => ({
+    blogs: state.blogs
+})
 
-        ]
-    },
-    {
-        id: '3',
-        title: 'Food in Vietname is so delicous and cheap !',
-        date: '2019-06-22',
-        description: 'Lorem ipsum dolor sit amet, sapien elit. Quis vel duis hendrerit voluptate magna at, vivamus augue fusce dictumst nulla labore pharetra, vestibulum nam enim ipsum dolor integer dignissim, mi integer. Id dui sodales. Tincidunt neque orci nulla gravida risus donec, montes orci viverra nascetur in lorem vel.',
-        city: 'Tokyo',
-        address: 'Lorem ipsum dolor sit amet',
-        postedBy: 'Robin',
-        postPhotoURL: 'https://randomuser.me/api/portraits/men/20.jpg',
-        commentors: [
-            {
-                id: 'a',
-                name: 'Lynch',
-                photoURL: 'https://randomuser.me/api/portraits/men/22.jpg',
-                content: 'Thanks for sharing'
-            },
-            {
-                id: 'b',
-                name: 'Obama',
-                photoURL: 'https://randomuser.me/api/portraits/women/18.jpg',
-                content: 'Must visit this place!'
-            },
-            {
-                id: 'c',
-                name: 'Noma',
-                photoURl: 'https://randomuser.me/api/portraits/women/37.jpg',
-                content: 'yummy~~'
-            }
-        ]
-    }
-]
+const mapDispatchToProps = {
+    createBlog,
+    updateBlog,
+    deleteBlog
+}
 
 class BlogDashboard extends Component {
     state = {
-        blogs: blogsFromDashBoard,
         isOpen: false,
         selectedEvent: null
     };
@@ -129,8 +46,9 @@ class BlogDashboard extends Component {
     handleCreateBlog = (newBlog) => {
         newBlog.id = 'asdasdas';
         newBlog.postPhotoURL = '/assets/user.png';
+        this.props.createBlog(newBlog);
         this.setState(({blogs}) => ({
-            blogs: [...blogs, newBlog]
+            isOpen: false
         }));
     };
     
@@ -143,28 +61,21 @@ class BlogDashboard extends Component {
     };
 
     handleUpdateBlog = (updateBlog) => {
+        this.props.updateBlog(updateBlog);
         this.setState(({blogs}) => ({
-            blogs: blogs.map(blog => {
-                if(blog.id === updateBlog.id) {
-                    return {...updateBlog}
-                } else {
-                    return blog;
-                }
-            }),
             isOpen: false,
-            selectedBlog: null
+            selectedBlog: null,
         }));
     }
 
     handleDeleteBlog = (id) => {
-        this.setState(({blogs}) => ({
-            blogs: blogs.filter(b => b.id !== id)
-        }))
+        this.props.deleteBlog(id);
     }
 
 
     render() {
-        const { blogs, isOpen, selectedBlog } = this.state;
+        const { isOpen, selectedBlog } = this.state;
+        const {blogs} = this.props;
         return (
             <Grid>
                 <Grid.Column width={10}>
@@ -190,4 +101,4 @@ class BlogDashboard extends Component {
     }
 }
 
-export default BlogDashboard;
+export default connect(mapStateToProps, mapDispatchToProps)(BlogDashboard);
