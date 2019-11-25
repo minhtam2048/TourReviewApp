@@ -46,6 +46,7 @@ class BlogForm extends Component {
         evt.preventDefault();
         if (this.state.id) {
             this.props.updateBlog(this.state);
+            this.props.history.push(`/blogs/${this.state.id}`)
         } else {
             const newBlog = {
                 ...this.state,
@@ -53,7 +54,7 @@ class BlogForm extends Component {
                 postPhotoURL: '/assets/user.png'
             }
             this.props.createBlog(newBlog);
-            this.props.history.push(`/blogs/${newBlog.id}`);
+            this.props.history.push(`/blogs`);
         }
     }
 

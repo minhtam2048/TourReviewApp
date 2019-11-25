@@ -18,24 +18,13 @@ const mapDispatchToProps = {
 class BlogDashboard extends Component {
    
 
-    handleCreateBlog = (newBlog) => {
-        newBlog.id = '123456';
-        newBlog.postPhotoURL = '/assets/user.png';
-        this.props.createBlog(newBlog);
-       
-    };
-    
-    handleUpdateBlog = (updateBlog) => {
-        this.props.updateBlog(updateBlog);
-    }
 
     handleDeleteBlog = (id) => {
         this.props.deleteBlog(id);
     }
 
 
-    render() {
-        
+    render() {  
         const {blogs} = this.props;
         return (
             <Grid>
