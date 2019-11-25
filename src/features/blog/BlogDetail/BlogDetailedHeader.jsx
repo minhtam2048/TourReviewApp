@@ -1,5 +1,6 @@
 import React from 'react'
 import { Segment, Image, Item, Header, Button } from 'semantic-ui-react'
+import { Link } from 'react-router-dom';
 
 const blogImageStyle = {
     filter: 'brightness(80%)'
@@ -36,7 +37,7 @@ const BlogDetailedHeader = ({blog}) => {
             <Segment attached="bottom">
                 <Button>Cancel</Button>
                 <Button color='teal' >Like</Button>
-                <Button color='orange' floated="right">Manage Blog</Button>
+                <Button as={Link} to={`/manage/${blog.id}`} color='orange' floated="right">Manage Blog</Button>
             </Segment>
 
         </Segment.Group>

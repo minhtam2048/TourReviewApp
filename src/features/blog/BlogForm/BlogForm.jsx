@@ -1,16 +1,38 @@
 import React, { Component } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
+import {connect} from 'react-redux';
+import {createBlog, updateBlog} from '../blogActions';
+import cuid from 'cuid';
 
-class BlogForm extends Component {
+const mapStateToProps = (state, ownProps) => {
+    const blogId = ownProps.match.params.id;
 
-    state = {
+    let blog = {
         title: '',
         date: '',
         city: '',
         address: '',
         description: '',
         postedBy: ''
-    };
+    }
+
+    if (blogId && state.blogs.length > 0) {
+        blog = state.blogs.filter(blog => blog.id === blogId)[0];
+    }
+
+    return {
+        blog
+    }
+}
+
+const mapDispatchToProps = {
+    createBlog,
+    updateBlog
+};
+
+class BlogForm extends Component {
+
+    state = {...this.props.blog};
 
     componentDidMount() {
         if (this.props.selectedBlog !== null) {
@@ -25,7 +47,13 @@ class BlogForm extends Component {
         if (this.state.id) {
             this.props.updateBlog(this.state);
         } else {
-            this.props.createBlog(this.state);
+            const newBlog = {
+                ...this.state,
+                id: cuid(),
+                postPhotoURL: '/assets/user.png'
+            }
+            this.props.createBlog(newBlog);
+            this.props.history.push(`/blogs/${newBlog.id}`);
         }
     }
 
@@ -37,7 +65,6 @@ class BlogForm extends Component {
     };
 
     render() {
-        const { cancelFormOpen } = this.props;
         const { title, date, city, address, postedBy, description } = this.state;
         return (
             <Segment>
@@ -93,11 +120,11 @@ class BlogForm extends Component {
                         placeholder="the one who create this post" />
                     </Form.Field>
                     <Button positive type="submit">Submit</Button>
-                    <Button onClick={cancelFormOpen} type="button">Cancel</Button>
+                    <Button onClick={this.props.history.goBack} type="button">Cancel</Button>
                 </Form>
             </Segment>
         );
     };
 };
 
-export default BlogForm;
+export default connect(mapStateToProps, mapDispatchToProps)(BlogForm);

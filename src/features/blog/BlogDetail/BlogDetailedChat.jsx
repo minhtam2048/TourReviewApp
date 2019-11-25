@@ -70,7 +70,7 @@ const BlogDetailedChat = () => {
                     
                     <Form reply>
                         <Form.TextArea />
-                        <Button Content="Add Reply" content="write" labelPosition="left" icon="edit" primary />
+                        <Button content="Add Reply" labelPosition="left" icon="edit" primary />
                     </Form>
                 </Comment.Group>
             </Segment>

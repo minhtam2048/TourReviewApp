@@ -5,7 +5,7 @@ import {Link} from'react-router-dom';
 
 class BlogListItem extends Component {
     render() {
-        const {blog, selectBlog, deleteBlog } = this.props;
+        const {blog, deleteBlog } = this.props;
         return (
             <Segment.Group>
                 <Segment>

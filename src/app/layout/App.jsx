@@ -21,13 +21,13 @@ class App extends Component {
                 <Fragment>
                     <NavBar />
                     <Container className="main">
-                        <Switch>
-                        <Route exact path='/blogs' component={BlogDashboard} />
-                        <Route path='/blogs/:id' component={BlogDetailedPage} />
-                        <Route path='/profile/:id' component={UserDetailedPage}/>
-                        <Route path='/createBlog' component={BlogForm} />
-                        <Route path='/settings' component={SettingsDashBoard} />
-                        <Route path='/test' component={TestComponent}/> 
+                        <Switch key={this.props.location.key}>
+                            <Route exact path='/blogs' component={BlogDashboard} />
+                            <Route path='/blogs/:id' component={BlogDetailedPage} />
+                            <Route path='/profile/:id' component={UserDetailedPage}/>
+                            <Route path={['/createBlog', '/manage/:id']}component={BlogForm} />
+                            <Route path='/settings' component={SettingsDashBoard} />
+                            <Route path='/test' component={TestComponent}/> 
                         </Switch>
                     </Container>
                 </Fragment>
@@ -38,4 +38,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default withRouter(App);
