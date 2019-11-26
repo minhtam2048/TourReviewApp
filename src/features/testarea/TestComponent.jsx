@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { incrementCounter, decrementCounter } from './TestAction';
 import { Button } from 'semantic-ui-react';
+import TestplaceInput from './TestPlaceInput';
+import SimpleMap from './SimpleMap';
 
 const mapStateToProps = (state) => ({
     data: state.test.data
@@ -21,6 +23,10 @@ class TestComponent extends Component {
                 <h1>The answer: {data} </h1>
                 <Button onClick={incrementCounter} positive content='Increment'/>
                 <Button onClick={decrementCounter} negative content='Decrement'/>
+                <br/>
+                <br/>
+                <TestplaceInput />
+                <SimpleMap />
             </div>
         )
     }

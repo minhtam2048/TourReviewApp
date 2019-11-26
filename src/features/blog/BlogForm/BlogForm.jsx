@@ -1,3 +1,4 @@
+/*global google */
 import React, { Component } from 'react';
 import { Segment, Form, Button, Grid, Header } from 'semantic-ui-react';
 import {connect} from 'react-redux';
@@ -9,6 +10,8 @@ import TextInput from '../../../app/common/form/TextInput';
 import TextArea from '../../../app/common/form/TextArea';
 import SelectInput from '../../../app/common/form/SelectInput';
 import DateInput from '../../../app/common/form/DateInput';
+import PlaceInput from '../../../app/common/form/PlaceInput';
+import {geocodeByAddress, getLatLng} from 'react-places-autocomplete'
 
 const mapStateToProps = (state, ownProps) => {
     const blogId = ownProps.match.params.id;
@@ -50,8 +53,13 @@ const category = [
 ]
 
 class BlogForm extends Component {
-
+    state = {
+        cityLatLng: {},
+        addressLatLng: {}
+    }
+    
     onFormSubmit = values => {
+        values.addressLatLng = this.state.addressLatLng;
         console.log(values);
         // evt.preventDefault();
         if (this.props.initialValues.id) {
@@ -69,7 +77,31 @@ class BlogForm extends Component {
         }
     }
 
-   
+   handleCitySelect = selectedCity => {
+       geocodeByAddress(selectedCity)
+       .then(results => getLatLng(results[0]))
+       .then(latlng => {
+           this.setState({
+               cityLatLng: latlng
+           })
+       })
+       .then(() => {
+           this.props.change('city', selectedCity)
+       })
+   }
+
+   handleAddressSelect = selectedAddress=> {
+    geocodeByAddress(selectedAddress)
+    .then(results => getLatLng(results[0]))
+    .then(latlng => {
+        this.setState({
+            addressLatLng: latlng
+        })
+    })
+    .then(() => {
+        this.props.change('address', selectedAddress)
+    })
+}
 
     render() {
         const { history, initialValues, invalid, submitting, pristine } = this.props;
@@ -85,8 +117,21 @@ class BlogForm extends Component {
                         <Field name="description" component={TextArea} placeholder="What is this post about?" />
                         
                         <Header sub color='teal' content='Location Details' />
-                            <Field name="city" component={TextInput} rows={4} placeholder="Where you traveled to ?" />
-                            <Field name="address" component={TextInput} placeholder="The more explicit information" />
+                            <Field name="city" component={PlaceInput} rows={4} 
+                            options={{types: ['(cities)']}}
+                            onselect={this.handleCitySelect}
+                            placeholder="Where you traveled to ?" />
+
+                            <Field name="address" component={PlaceInput} 
+                            options={{
+                                location: new google.maps.LatLng(this.state.cityLatLng),
+                                radius: 1000,
+                                types: ['establishment']
+                            }}
+                            onSelect={this.handleAddressSelect}
+                            placeholder="The more explicit information" />
+
+
                             <Field name="date" component={DateInput} dateFormat='dd LLL yyyy h:mm a' showTimeSelect timeFormat='HH:mm' placeholder="When did you go?" />
                         <Button disabled={invalid || submitting || pristine} positive type="submit">Submit</Button>
                         <Button onClick={
