@@ -3,9 +3,11 @@ import PlacesAutoComplete from 'react-places-autocomplete';
 import { Form, Label, Segment, List } from 'semantic-ui-react';
 
 const PlaceInput = ({input: {value, onChange, onBlur}, 
-                     width, options, placeholder, onSelect , meta: {touched, error}}) => {
+                     width, options, placeholder, onSelect 
+                    ,meta: {touched, error}}) => {
     return (
-        <PlacesAutoComplete value={value} onChange={onChange} searchOptions={options} onSelect={onSelect}>
+        <PlacesAutoComplete value={value} onChange={onChange} 
+                  searchOptions={options} onSelect={onSelect}>
             {({getInputProps, suggestions, getSuggestionItemProps, loading}) =>
              (
                  <Form.Field error={touched && !!error}>

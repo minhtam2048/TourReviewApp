@@ -1,6 +1,8 @@
 import { createReducer } from "../../app/common/util/reducerUtils";
 import { CREATE_BLOG, UPDATE_BLOG, DELETE_BLOG } from "./blogConstants";
 
+
+
 const initialState =  [
     {
         id: '1',
@@ -10,6 +12,10 @@ const initialState =  [
         description: 'Lorem ipsum dolor sit amet, sapien elit. Quis vel duis hendrerit voluptate magna at, vivamus augue fusce dictumst nulla labore pharetra, vestibulum nam enim ipsum dolor integer dignissim, mi integer. Id dui sodales. Tincidunt neque orci nulla gravida risus donec, montes orci viverra nascetur in lorem vel.',
         city: 'Tokyo',
         address: 'Lorem ipsum dolor sit amet',
+        addressLatLng: {
+            lat: 40.7484405,
+            lng: -73.98566440000002
+        },
         postedBy: 'Tachibana',
         postPhotoURL: 'https://randomuser.me/api/portraits/women/22.jpg',
         commentors: [
@@ -28,7 +34,7 @@ const initialState =  [
             {
                 id: 'c',
                 name: 'Noma',
-                photoURl: 'https://randomuser.me/api/protraits/women/37.jpg',
+                photoURl: 'https://randomuser.me/api/portraits/women/37.jpg',
                 content: 'wow, so beautiful!!'
             }
 
@@ -42,6 +48,10 @@ const initialState =  [
         description: 'Lorem ipsum dolor sit amet, sapien elit. Quis vel duis hendrerit voluptate magna at, vivamus augue fusce dictumst nulla labore pharetra, vestibulum nam enim ipsum dolor integer dignissim, mi integer. Id dui sodales. Tincidunt neque orci nulla gravida risus donec, montes orci viverra nascetur in lorem vel.',
         city: 'Tokyo',
         address: 'Lorem ipsum dolor sit amet',
+        addressLatLng: {
+            lat: 40.7484405,
+            lng: -73.98566440000002
+        },
         postedBy: 'Aoi',
         postPhotoURL: 'https://randomuser.me/api/portraits/women/40.jpg',
         commentors: [
@@ -74,6 +84,10 @@ const initialState =  [
         description: 'Lorem ipsum dolor sit amet, sapien elit. Quis vel duis hendrerit voluptate magna at, vivamus augue fusce dictumst nulla labore pharetra, vestibulum nam enim ipsum dolor integer dignissim, mi integer. Id dui sodales. Tincidunt neque orci nulla gravida risus donec, montes orci viverra nascetur in lorem vel.',
         city: 'Tokyo',
         address: 'Lorem ipsum dolor sit amet',
+        addressLatLng: {
+            lat: 40.7484405,
+            lng: -73.98566440000002
+        },
         postedBy: 'Robin',
         postPhotoURL: 'https://randomuser.me/api/portraits/men/20.jpg',
         commentors: [

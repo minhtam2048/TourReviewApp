@@ -9,7 +9,7 @@ import cuid from 'cuid';
 import TextInput from '../../../app/common/form/TextInput';
 import TextArea from '../../../app/common/form/TextArea';
 import SelectInput from '../../../app/common/form/SelectInput';
-import DateInput from '../../../app/common/form/DateInput';
+// import DateInput from '../../../app/common/form/DateInput';
 import PlaceInput from '../../../app/common/form/PlaceInput';
 import {geocodeByAddress, getLatLng} from 'react-places-autocomplete'
 
@@ -117,9 +117,10 @@ class BlogForm extends Component {
                         <Field name="description" component={TextArea} placeholder="What is this post about?" />
                         
                         <Header sub color='teal' content='Location Details' />
+
                             <Field name="city" component={PlaceInput} rows={4} 
                             options={{types: ['(cities)']}}
-                            onselect={this.handleCitySelect}
+                            onSelect={this.handleCitySelect}
                             placeholder="Where you traveled to ?" />
 
                             <Field name="address" component={PlaceInput} 
@@ -131,9 +132,14 @@ class BlogForm extends Component {
                             onSelect={this.handleAddressSelect}
                             placeholder="The more explicit information" />
 
+                            {/* <Field name="date" component={DateInput} 
+                            dateFormat='dd LLL yyyy h:mm a' showTimeSelect 
+                            timeFormat='HH:mm' placeholder="When did you go?" /> */}
+                            <Field name="date" component={TextInput} type="date"
+                            placeholder="When did you go ?" />
 
-                            <Field name="date" component={DateInput} dateFormat='dd LLL yyyy h:mm a' showTimeSelect timeFormat='HH:mm' placeholder="When did you go?" />
-                        <Button disabled={invalid || submitting || pristine} positive type="submit">Submit</Button>
+                        <Button disabled={invalid || submitting || pristine} 
+                                positive type="submit">Submit</Button>
                         <Button onClick={
                             initialValues.id ? () => history.push(`/blogs/${initialValues.id}`) 
                                              : () => history.push(`blogs`)} 

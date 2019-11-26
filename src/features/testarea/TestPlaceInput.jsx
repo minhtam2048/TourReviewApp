@@ -13,20 +13,14 @@ class TestPlaceInput extends React.Component {
   handleChange = address => {
     this.setState({ address });
   };
-
-  handleSelect = address => {
-    geocodeByAddress(address)
-      .then(results => getLatLng(results[0]))
-      .then(latLng => console.log('Success', latLng))
-      .catch(error => console.error('Error', error));
-  };
-
+  
   render() {
+    const {selectedAddress} = this.props;
     return (
       <PlacesAutocomplete
         value={this.state.address}
         onChange={this.handleChange}
-        onSelect={this.handleSelect}
+        onSelect={selectedAddress}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div>

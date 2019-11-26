@@ -1,7 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Segment, Grid, Icon, Button } from 'semantic-ui-react'
+import BlogDetailedMap from './BlogDetailedMap'
 
 const BlogDetailedInfo = ({blog}) => {
+    const [isMapOpen, showMapToggle] = useState(false)
+
     return (
         <Segment.Group>
             <Segment attached="top">
@@ -33,10 +36,12 @@ const BlogDetailedInfo = ({blog}) => {
                         <span>{blog.address}</span>
                     </Grid.Column>
                     <Grid.Column width={4}>
-                        <Button color="teal" size="tiny" content="Show Map" />
+                        <Button onClick={() => showMapToggle(!isMapOpen)} color="teal" size="tiny" content={(!isMapOpen)? "Show Map" : "Hide Map"} />
                     </Grid.Column>
                 </Grid>
             </Segment>
+            {isMapOpen &&
+            <BlogDetailedMap lat={blog.addressLatLng.lat} lng={blog.addressLatLng.lng}/> }
         </Segment.Group>
     )
 }
