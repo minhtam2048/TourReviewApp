@@ -9,11 +9,13 @@ import BlogForm from '../../features/blog/BlogForm/BlogForm';
 import {UserDetailedPage} from '../../features/user/UserDetailed/UserDetailedpage';
 import SettingsDashBoard from '../../features/user/Settings/SettingsDashBoard';
 import TestComponent from '../../features/testarea/TestComponent';
+import ModalManager from '../../features/modals/ModalManager';
 
 class App extends Component {
     render() {
         return (
             <Fragment>
+                <ModalManager />
                 <Route exact path='/' component={HomePage}/>
                 <Route
                 path='/(.+)'

@@ -34,7 +34,7 @@ const initialState =  [
             {
                 id: 'c',
                 name: 'Noma',
-                photoURl: 'https://randomuser.me/api/portraits/women/37.jpg',
+                photoURL: 'https://randomuser.me/api/portraits/women/37.jpg',
                 content: 'wow, so beautiful!!'
             }
 
