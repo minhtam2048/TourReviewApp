@@ -1,6 +1,6 @@
 import { INCREMENT_COUNTER, DECREMENT_COUNTER } from "./TestConstant";
-import { asyncActionStart, asyncActionFinish } from "../async/asyncActions";
-import { ASYNC_ACTION_START, ASYNC_ACTION_FINISH } from "../async/asyncConstants";
+import { asyncActionFinish } from "../async/asyncActions";
+import { ASYNC_ACTION_START } from "../async/asyncConstants";
 
 export const incrementCounter = () => {
     return {

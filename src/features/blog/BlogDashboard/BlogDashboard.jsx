@@ -3,10 +3,12 @@ import { Grid } from 'semantic-ui-react';
 import BlogList from '../BlogList/BlogList';
 import {connect} from 'react-redux';
 import {createBlog, updateBlog, deleteBlog} from "../blogActions";
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 
 const mapStateToProps = (state) => ({
-    blogs: state.blogs
+    blogs: state.blogs,
+    loading: state.async.loading
 })
 
 const mapDispatchToProps = {
@@ -25,7 +27,8 @@ class BlogDashboard extends Component {
 
 
     render() {  
-        const {blogs} = this.props;
+        const {blogs, loading} = this.props;
+        if(loading) return <LoadingComponent />
         return (
             <Grid>
                 <Grid.Column width={10}>

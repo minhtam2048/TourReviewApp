@@ -7,8 +7,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from './app/store/configureStore';
 import ScrollToTop from './app/common/util/ScrollToTop';
+import { loadBlogs } from './features/blog/blogActions';
 
 const store = configureStore();
+
+store.dispatch(loadBlogs());
 
 console.log(store.getState())
 
