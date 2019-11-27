@@ -11,9 +11,9 @@ const mapStateToProps = (state, ownProps) => {
 
     let blog = {};
 
-    if(blogId && state.blogs.length > 0) {
-        blog = state.blogs.filter(blog => blog.id === blogId)[0]
-    }
+   if ( state.firestore.ordered.blogs && state.firestore.ordered.blogs.length > 0 ) {
+       blog = state.firestore.ordered.blogs.filter(blog => blog.id === blogId)[0] || {};
+   }
 
     return {
         blog

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Segment, Image, Item, Header, Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
+import { format } from 'date-fns';
 
 const blogImageStyle = {
     filter: 'brightness(80%)'
@@ -26,7 +27,7 @@ const BlogDetailedHeader = ({blog}) => {
                        <Item>
                            <Item.Content>
                                 <Header side="huge" content={blog.title} style={{color: 'white'}} />
-                                <p>{blog.date}</p>
+                                <p>{format(blog.date.toDate(), 'EEEE do LLLL')}</p>
                                 <p>Posted by <strong>{blog.postedBy}</strong></p>
                            </Item.Content>
                        </Item>

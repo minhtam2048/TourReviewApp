@@ -30,8 +30,8 @@ class BlogListItem extends Component {
                 <Segment>
                     <span>
                         <Icon name="clock" />
-                        {format(blog.date.toDate(), 'EEEE do LLLL')} at{' '}
-                        {format(blog.date.toDate(), 'h:mm a')} |
+                        {format(blog.date.toDate(), 'EEEE do LLLL')}
+                          |
                         <Icon name = 'marker' />{blog.address}
                         <Button onClick={() => deleteBlog(blog.id)} 
                         as='a' color='red' floated='right' content='Delete'/>

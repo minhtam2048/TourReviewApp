@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Segment, Item, Label, List, Image } from 'semantic-ui-react';
 import { relative } from 'path'
+import { objectToArray } from '../../../app/common/util/helpers';
 
 const BlogDetailedSidebar = ({likers}) => {
     const isHost = false;
@@ -14,7 +15,7 @@ const BlogDetailedSidebar = ({likers}) => {
             
             <Segment attached>
                 <List relaxed divided>
-                    {likers && likers.map((liker) =>(
+                    {likers && objectToArray(likers).map(liker =>(
                         <Item key={liker.id} style={{position: relative}}>
                             {isHost &&
                             <Label style={{position: 'absolute'}} color='orange' ribbon='right'>

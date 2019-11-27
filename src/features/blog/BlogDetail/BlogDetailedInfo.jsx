@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { Segment, Grid, Icon, Button } from 'semantic-ui-react'
 import BlogDetailedMap from './BlogDetailedMap'
+import { format } from 'date-fns'
 
 const BlogDetailedInfo = ({blog}) => {
     const [isMapOpen, showMapToggle] = useState(false)
@@ -23,7 +24,10 @@ const BlogDetailedInfo = ({blog}) => {
                         <Icon name="calendar" size="large" color="teal" />
                     </Grid.Column>
                     <Grid.Column width={15}>
-                        <span>{blog.date}</span>
+                        {/* <span>{blog.date}</span> */}
+                        <span>
+                            {format(blog.date.toDate(), 'EEEE do LLLL')}
+                        </span>
                     </Grid.Column>
                 </Grid>
             </Segment>
