@@ -1,21 +1,32 @@
 import { CREATE_BLOG, UPDATE_BLOG, DELETE_BLOG, FETCH_BLOGS } from "./blogConstants"
 import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/asyncActions"
 import { fetchSampleData } from "../../app/data/mockAPI"
+import { toastr } from "react-redux-toastr"
 
 export const createBlog = (blog) => {
-    return {
-        type: CREATE_BLOG,
-        payload: {
-            blog  
+    return async dispatch => {
+        try {
+            dispatch({
+                type: CREATE_BLOG,
+                payload: { blog }
+            })
+            toastr.success('Success!', 'Created');
+        } catch (error) {
+            toastr.error('Create error', 'something went wrong');
         }
     }
 }
 
 export const updateBlog = (blog) => {
-    return {
-        type: UPDATE_BLOG,
-        payload: {
-            blog
+    return async dispatch => {
+        try {
+            dispatch({
+                type: UPDATE_BLOG,
+                payload: { blog }
+            })
+            toastr.success('Success!', 'Updated');
+        } catch (error) {
+            toastr.error('Update error', 'something went wrong')
         }
     }
 }

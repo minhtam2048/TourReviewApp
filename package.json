@@ -49,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-redux-toastr": "^7.6.0",
     "@types/react-router-dom": "^5.1.2",
     "redux-devtools-extension": "^2.13.8",
     "source-map-explorer": "^2.1.1",

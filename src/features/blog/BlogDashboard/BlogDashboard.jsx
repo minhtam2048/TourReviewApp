@@ -4,6 +4,7 @@ import BlogList from '../BlogList/BlogList';
 import {connect} from 'react-redux';
 import {createBlog, updateBlog, deleteBlog} from "../blogActions";
 import LoadingComponent from '../../../app/layout/LoadingComponent';
+import BlogActivity from '../BlogActivity/BlogActivity';
 
 
 const mapStateToProps = (state) => ({
@@ -37,7 +38,7 @@ class BlogDashboard extends Component {
                         deleteBlog={this.handleDeleteBlog} />
                 </Grid.Column>
                 <Grid.Column width={6}>
-                    <h2>Activity Feed</h2>
+                    <BlogActivity />
                 </Grid.Column>
             </Grid>
         )
