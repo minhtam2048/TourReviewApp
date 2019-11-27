@@ -2,27 +2,27 @@ import React, { Fragment } from 'react';
 import { Segment, Item, Label, List, Image } from 'semantic-ui-react';
 import { relative } from 'path'
 
-const BlogDetailedSidebar = ({commentors}) => {
+const BlogDetailedSidebar = ({likers}) => {
     const isHost = false;
 
     return (
         <Fragment>
             <Segment textAlign='center' style={{border: 'none'}} 
             attached='top' secondary inverted color='teal' >
-                {commentors && commentors.length} {commentors && commentors.length === 1 ? 'Person': 'People'} liked this post
+                {likers && likers.length} {likers && likers.length === 1 ? 'Person': 'People'} liked this post
             </Segment>
             
             <Segment attached>
                 <List relaxed divided>
-                    {commentors && commentors.map((commentor) =>(
-                        <Item key={commentor.id} style={{position: relative}}>
+                    {likers && likers.map((liker) =>(
+                        <Item key={liker.id} style={{position: relative}}>
                             {isHost &&
                             <Label style={{position: 'absolute'}} color='orange' ribbon='right'>
                                 Posted By
                             </Label>}
-                            <Image circular size="tiny"  src={commentor.photoURL} alt=''/>
+                            <Image circular size="tiny"  src={liker.photoURL} alt=''/>
                             <Item.Content verticalAlign="middle" >
-                                <Item.Header as="h3" >{commentor.name}</Item.Header>
+                                <Item.Header as="h3" >{liker.name}</Item.Header>
                             </Item.Content> 
                         </Item>
                     ))}

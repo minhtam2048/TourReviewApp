@@ -5,10 +5,10 @@ import {connect} from 'react-redux';
 import {createBlog, updateBlog, deleteBlog} from "../blogActions";
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import BlogActivity from '../BlogActivity/BlogActivity';
-
+import { firestoreConnect } from 'react-redux-firebase';
 
 const mapStateToProps = (state) => ({
-    blogs: state.blogs,
+    blogs: state.firestore.ordered.blogs,
     loading: state.async.loading
 })
 
@@ -19,8 +19,6 @@ const mapDispatchToProps = {
 }
 
 class BlogDashboard extends Component {
-   
-
 
     handleDeleteBlog = (id) => {
         this.props.deleteBlog(id);
@@ -45,4 +43,4 @@ class BlogDashboard extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BlogDashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(firestoreConnect([{ collection: 'blogs' }])(BlogDashboard));

@@ -31,7 +31,7 @@ const BlogDetailedPage = ({blog}) => {
                 <BlogDetailedChat />
             </Grid.Column>
             <Grid.Column width={6}>
-                <BlogDetailedSidebar commentors={blog.commentors} />
+                <BlogDetailedSidebar likers={blog.likers} />
             </Grid.Column>
         </Grid>
     )

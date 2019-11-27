@@ -45,7 +45,7 @@ const validate = combineValidators({
 })
 
 const category = [
-    {key: 'foods', text: 'Foods', value: 'foods'},
+    {key: 'food', text: 'Food', value: 'food'},
     {key: 'travel', text: 'Travel', value: 'travel'},
     {key: 'culture', text: 'Culture', value: 'culture'},
     {key: 'lowCostTrip', text: 'Low Cost Trip', value: 'lowCostTrip'},

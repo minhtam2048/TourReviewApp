@@ -6,7 +6,7 @@ class BlogList extends Component {
         const {blogs, deleteBlog } = this.props;
         return (
             <Fragment>
-                {blogs.map(blog => (
+                { blogs && blogs.map(blog => (
                     <BlogListItem 
                         key={blog.id} 
                         blog={blog} 

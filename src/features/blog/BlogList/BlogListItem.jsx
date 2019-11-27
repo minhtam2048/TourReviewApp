@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Segment, Item, Icon, List, Button } from 'semantic-ui-react';
-import BlogListCommentor from './BlogListCommentor';
+import BlogListLiker from './BlogListLiker';
 import {Link} from'react-router-dom';
+import { format } from 'date-fns';
+import { objectToArray } from '../../../app/common/util/helpers';
 
 class BlogListItem extends Component {
     render() {
@@ -27,19 +29,21 @@ class BlogListItem extends Component {
                 </Segment>
                 <Segment>
                     <span>
-                        <Icon name="clock" /> {blog.date} |
-                        <Icon name="marker"/> {blog.address}
+                        <Icon name="clock" />
+                        {format(blog.date.toDate(), 'EEEE do LLLL')} at{' '}
+                        {format(blog.date.toDate(), 'h:mm a')} |
+                        <Icon name = 'marker' />{blog.address}
                         <Button onClick={() => deleteBlog(blog.id)} 
                         as='a' color='red' floated='right' content='Delete'/>
                         <Button as={Link} to={`/blogs/${blog.id}`}
                          color='teal' floated='right' content='View'/>
-                        
-                    </span>
+                    </span>                        
                 </Segment>
                 <Segment secondary>
                     <List horizontal>
-                        {blog.commentors && blog.commentors.map(commentor => (
-                            <BlogListCommentor key={commentor.id} commentor={commentor} />
+                        {blog.likers && 
+                          objectToArray(blog.likers).map(liker => (
+                            <BlogListLiker key={liker.id} liker={liker} />
                         ))}
                     </List>
                 </Segment>

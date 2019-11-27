@@ -9,11 +9,11 @@ import { Provider } from 'react-redux';
 import ReduxToastr from 'react-redux-toastr';
 import { configureStore } from './app/store/configureStore';
 import ScrollToTop from './app/common/util/ScrollToTop';
-import { loadBlogs } from './features/blog/blogActions';
+// import { loadBlogs } from './features/blog/blogActions';
 
 const store = configureStore();
 
-store.dispatch(loadBlogs());
+// store.dispatch(loadBlogs());
 
 console.log(store.getState())
 
