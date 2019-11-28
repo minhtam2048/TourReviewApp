@@ -1,13 +1,15 @@
 import React from 'react';
-import { Form, Segment, Button, Label} from 'semantic-ui-react';
+import { Form, Segment, Button, Label, Divider} from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import TextInput  from '../../../app/common/form/TextInput';
-import {login} from '../authActions';
+import {login, socialLogin } from '../authActions';
 import {connect} from 'react-redux';
 import {isRequired, combineValidators} from 'revalidate';
+import SocialLogin from '../SocialLogin/SocialLogin';
 
 const mapDispatchToProps = {
-    login
+    login,
+    socialLogin
 }
 
 const validate = combineValidators({
@@ -16,7 +18,7 @@ const validate = combineValidators({
     password: isRequired('password')
 })
 
-const LoginForm = ({login, handleSubmit, error, invalid, submitting}) => {
+const LoginForm = ({login, handleSubmit, error, invalid, submitting, socialLogin}) => {
     return (
         <Form size='large' onSubmit={handleSubmit(login)}>
             <Segment>
@@ -28,6 +30,10 @@ const LoginForm = ({login, handleSubmit, error, invalid, submitting}) => {
                 <Button disabled={ invalid || submitting } fluid size="large" color="teal">
                     Login
                 </Button>
+                <Divider horizontal>
+                    Or login with another method
+                </Divider>
+                <SocialLogin socialLogin={socialLogin} />
             </Segment>
         </Form>
     )

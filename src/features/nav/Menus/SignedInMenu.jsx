@@ -6,7 +6,7 @@ const SignedInMenu = ({signOut, auth}) => {
     return (
         <Menu.Item position='right'>
             <Image avatar spaced='right' src='/assets/user.png' />
-            <Dropdown pointing='top left' text={auth.email}>
+            <Dropdown pointing='top left' text={auth.displayName}>
                 <Dropdown.Menu>
                     <Dropdown.Item text='Create Blog' icon='plus' />
                     <Dropdown.Item text='Booking' icon='calendar' />

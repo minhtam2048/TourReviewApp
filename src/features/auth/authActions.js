@@ -1,6 +1,7 @@
 import { SubmissionError } from 'redux-form';
 import { SIGN_OUT_USER } from "./authConstant"
 import { closeModal } from "../modals/modalActions";
+import { async } from 'q';
 
 
 export const login = (creds) => {
@@ -51,3 +52,20 @@ export const registerUser = user =>
             })
         }
 };
+
+export const socialLogin = (selectedProvider) => 
+    async (dispatch, getState, {getFirebase}) => {
+        const firebase = getFirebase();
+        try {
+            dispatch(closeModal());
+            await firebase.login({
+                provider: selectedProvider,
+                type: 'popup'
+            })
+        } catch (error) {
+            console.log(error);
+            throw new SubmissionError ({
+                _error : error.message
+            })
+        }
+    }
