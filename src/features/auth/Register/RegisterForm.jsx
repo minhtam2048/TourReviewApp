@@ -4,12 +4,18 @@ import { Field, reduxForm} from 'redux-form';
 import TextInput from '../../../app/common/form/TextInput';
 import { connect } from 'react-redux';
 import { registerUser} from '../authActions';
-
+import { isRequired, combineValidators } from 'revalidate';
 const mapDispatchToProps = {
     registerUser
 }
 
-const RegisterForm = ({handleSubmit, registerUser, error}) => {
+const validate = combineValidators({
+    displayName: isRequired('displayName'),
+    email: isRequired('email'),
+    password: isRequired('password')
+})
+
+const RegisterForm = ({handleSubmit, registerUser, error, invalid, submitting}) => {
     return (
         <div>
             <Form size="large" autoComplete="new-password" onSubmit={handleSubmit(registerUser)}>
@@ -17,8 +23,8 @@ const RegisterForm = ({handleSubmit, registerUser, error}) => {
                     <Field name="displayName" type="text" component={TextInput} placeholder="Known As" autoComplete="new-password" />
                     <Field name="email" type="text" component={TextInput} placeholder="Email" autoComplete="new-password" />
                     <Field name="password" type="password" component={TextInput} placeholder="Password" autoComplete="new-password" />
-                    <Label>{error}</Label>
-                    <Button fluid size="large" color="teal">
+                    {error && <Label basic color='red'>{error}</Label>}
+                    <Button disabled={invalid || submitting} fluid size="large" color="teal">
                         Register
                     </Button>
                 </Segment>
@@ -27,4 +33,4 @@ const RegisterForm = ({handleSubmit, registerUser, error}) => {
     )
 };
 
-export default connect(null, mapDispatchToProps)(reduxForm({form: 'registerForm'})(RegisterForm));
+export default connect(null, mapDispatchToProps)(reduxForm({form: 'registerForm',validate})(RegisterForm));
