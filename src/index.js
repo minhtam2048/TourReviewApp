@@ -10,23 +10,42 @@ import ReduxToastr from 'react-redux-toastr';
 import { configureStore } from './app/store/configureStore';
 import ScrollToTop from './app/common/util/ScrollToTop';
 // import { loadBlogs } from './features/blog/blogActions';
+import {ReactReduxFirebaseProvider} from 'react-redux-firebase';
+import {createFirestoreInstance} from 'redux-firestore';
+import firebase from './app/config/firebase';
 
 const store = configureStore();
 
 // store.dispatch(loadBlogs());
+
+const rrfConfig = {
+    userProfile: 'users',
+    attachAuthIsReady: true,
+    useFirestoreForProfile: true,
+    updateProfileOnLogin: false
+};
+
+const rrfProps = {
+    firebase,
+    config: rrfConfig,
+    dispatch: store.dispatch,
+    createFirestoreInstance
+};
 
 console.log(store.getState())
 
 
 ReactDOM.render(
    <Provider store={store}>
-        <BrowserRouter>
-        <ScrollToTop>
-            <ReduxToastr timeOut={2000} preventDuplicates position="bottom-right" 
-                         transitionIn="fadeIn" transitionOut="fadeOut" />
-            <App />
-        </ScrollToTop>
-        </BrowserRouter>
+        <ReactReduxFirebaseProvider {...rrfProps}>
+            <BrowserRouter>
+            <ScrollToTop>
+                <ReduxToastr timeOut={2000} preventDuplicates position="bottom-right" 
+                            transitionIn="fadeIn" transitionOut="fadeOut" />
+                <App />
+            </ScrollToTop>
+            </BrowserRouter>
+        </ReactReduxFirebaseProvider>
     </Provider>, 
     document.getElementById('root')
 );
