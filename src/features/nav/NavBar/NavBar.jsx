@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { withFirebase } from 'react-redux-firebase';
 import { Menu, Button, Container } from 'semantic-ui-react'
 import { NavLink, Link, withRouter } from 'react-router-dom'
 import SignedOutMenu from '../Menus/SignedOutMenu'
@@ -8,7 +9,7 @@ import { openModal } from '../../modals/modalActions';
 import { logout } from '../../auth/authActions'  
 
 const mapStateToProps = (state) => ({
-    auth: state.auth
+    auth: state.firebase.auth
 })
 
 const mapDispatchToProps = {
@@ -27,13 +28,13 @@ class NavBar extends Component {
     }
 
     handleSignOut = () => { 
-        this.props.logout();
+        this.props.firebase.logout();
         this.props.history.push('/');
     }
 
     render() {
         const {auth} = this.props;
-        const authenticated = auth.authenticated
+        const authenticated = auth.isLoaded && !auth.isEmpty;
         return (
             <Menu inverted>
                 <Container>
@@ -51,7 +52,7 @@ class NavBar extends Component {
                         </Menu.Item>
                     </Fragment>
                     }
-                    {authenticated ? <SignedInMenu signOut={this.handleSignOut} currentUser={auth.currentUser} /> : 
+                    {authenticated ? <SignedInMenu signOut={this.handleSignOut} auth={auth} /> : 
                     <SignedOutMenu signIn={this.handleSignIn} register={this.handleRegister} />}
                 </Container>
             </Menu>
@@ -60,4 +61,4 @@ class NavBar extends Component {
 }
 
 // High Order Component => return new NavBar component
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar));
+export default withRouter(withFirebase(connect(mapStateToProps, mapDispatchToProps)(NavBar)));

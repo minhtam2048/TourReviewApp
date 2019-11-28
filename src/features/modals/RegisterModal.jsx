@@ -12,7 +12,7 @@ class RegisterModal extends Component {
         return (
             <Modal size='mini' open={true} onClose={this.props.closeModal}>
                 <Modal.Header>
-                    Sign Up to Re-vents!
+                    Sign Up to dora!
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>

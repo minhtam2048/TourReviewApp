@@ -12,7 +12,7 @@ class LoginModal extends Component {
         return (
             <Modal size='mini' open={true} onClose={this.props.closeModal}>
                 <Modal.Header>
-                    Login to Re-vents
+                    Login to this tour review app
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
