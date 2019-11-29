@@ -13,13 +13,13 @@ const SettingsDashBoard = () => {
             <Grid.Column width={12}>
                 <Switch>
                     <Redirect exact from='/settings' to='/settings/basic' />
-                    <Route path='settings/basic' component={BasicPage} />
-                    <Route path='settings/about' component={AboutPage} />
-                    <Route path='settings/gallery' component={GalleryPage} />
-                    <Route path='settings/account' component={AccountPage} />
+                    <Route path='/settings/basic' component={BasicPage} />
+                    <Route path='/settings/about' component={AboutPage} />
+                    <Route path='/settings/gallery' component={GalleryPage} />
+                    <Route path='/settings/account' component={AccountPage} />
                 </Switch>
             </Grid.Column>
-            <Grid.Column width={4}>
+            <Grid.Column width={3}>
                 <SettingsNav />
             </Grid.Column>
         </Grid>

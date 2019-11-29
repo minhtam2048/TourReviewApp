@@ -1,15 +1,14 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Form, Segment, Button, Label, Divider} from 'semantic-ui-react';
 import { Field, reduxForm} from 'redux-form';
 import TextInput from '../../../app/common/form/TextInput';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { registerUser} from '../authActions';
 import { isRequired, combineValidators } from 'revalidate';
 import SocialLogin from '../SocialLogin/SocialLogin';
+import { useFirebase, useFirestore } from 'react-redux-firebase';
 
-const mapDispatchToProps = {
-    registerUser
-}
+
 
 const validate = combineValidators({
     displayName: isRequired('displayName'),
@@ -17,10 +16,20 @@ const validate = combineValidators({
     password: isRequired('password')
 })
 
-const RegisterForm = ({handleSubmit, registerUser, error, invalid, submitting}) => {
+const RegisterForm = ({handleSubmit, error, invalid, submitting}) => {
+    const dispatch = useDispatch();
+    const firebase = useFirebase();
+    const firestore = useFirestore();
+
+    const handleRegister = useCallback(
+        (user) => {
+            dispatch(registerUser({firebase, firestore}, user))
+        }, [dispatch, firebase, firestore]
+    );
+
     return (
         <div>
-            <Form size="large" autoComplete="new-password" onSubmit={handleSubmit(registerUser)}>
+            <Form size="large" autoComplete="new-password" onSubmit={handleSubmit(handleRegister)}>
                 <Segment>
                     <Field name="displayName" type="text" component={TextInput} placeholder="Known As" autoComplete="new-password" />
                     <Field name="email" type="text" component={TextInput} placeholder="Email" autoComplete="new-password" />
@@ -39,4 +48,4 @@ const RegisterForm = ({handleSubmit, registerUser, error, invalid, submitting}) 
     )
 };
 
-export default connect(null, mapDispatchToProps)(reduxForm({form: 'registerForm',validate})(RegisterForm));
+export default reduxForm({form: 'registerForm',validate})(RegisterForm);
