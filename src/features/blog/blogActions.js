@@ -2,20 +2,30 @@ import { CREATE_BLOG, UPDATE_BLOG, DELETE_BLOG, FETCH_BLOGS } from "./blogConsta
 import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/asyncActions"
 import { fetchSampleData } from "../../app/data/mockAPI"
 import { toastr } from "react-redux-toastr"
+import { createNewBlog } from "../../app/common/util/helpers"
 
-export const createBlog = (blog) => {
-    return async dispatch => {
+export const createBlog = ({firebase, firestore}, blog) => {
+    return async (dispatch, getState) => {
+        const user = firebase.auth().currentUser;
+        const photoURL = getState().firebase.profile.photoURL;
+        const newBlog = createNewBlog(user, photoURL, blog, firestore);
         try {
-            dispatch({
-                type: CREATE_BLOG,
-                payload: { blog }
-            })
-            toastr.success('Success!', 'Created');
-        } catch (error) {
-            toastr.error('Create error', 'something went wrong');
+            let createdBlog = await firestore.add('blogs', newBlog);
+            await firestore.set(`blog_liker/${createdBlog.id}_${user.uid}`, {
+                blogId: createdBlog.id,
+                userUid: user.uid,
+                blogDate: blog.date,
+                poster: true
+            });
+            toastr.success('Success', 'Blog has been created');
+            return createdBlog;
+
+        } catch ( error) {
+            console.log(error);
+            toastr.error('Error', 'something bad has happened');
         }
-    }
-}
+    };
+};
 
 export const updateBlog = (blog) => {
     return async dispatch => {

@@ -2,6 +2,9 @@ import React from 'react'
 import { Segment, Image, Item, Header, Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
+import { useFirebase, useFirestore } from 'react-redux-firebase';
+import {useDispatch, useSelector} from 'react-redux';
+import {openModal} from '../../modals/modalActions';
 
 const blogImageStyle = {
     filter: 'brightness(80%)'
@@ -16,7 +19,11 @@ const blogImageTextStyle = {
     color: 'white'
 };
 
-const BlogDetailedHeader = ({blog}) => {
+const BlogDetailedHeader = ({blog, authenticated}) => {
+    const firestore = useFirestore();
+    const firebase = useFirebase();
+    const dispatch = useDispatch();
+    const loading = useSelector(state => state.async.loading, []);
     
     return (    
         <Segment.Group>
@@ -27,8 +34,8 @@ const BlogDetailedHeader = ({blog}) => {
                        <Item>
                            <Item.Content>
                                 <Header side="huge" content={blog.title} style={{color: 'white'}} />
-                                <p>{format(blog.date.toDate(), 'EEEE do LLLL')}</p>
-                                <p>Posted by <strong>{blog.postedBy}</strong></p>
+                                <p>{format(blog.date && blog.date.toDate(), 'EEEE do LLLL')}</p>
+                                <p>Posted By<strong><Link to={`/profile/${blog.posterUid}`}>{blog.postedBy}</Link></strong></p>
                            </Item.Content>
                        </Item>
                     </Item.Group>

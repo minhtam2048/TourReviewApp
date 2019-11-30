@@ -6,7 +6,7 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import HomePage from '../../features/home/HomePage';
 import BlogDetailedPage from '../../features/blog/BlogDetail/BlogDetailedPage';
 import BlogForm from '../../features/blog/BlogForm/BlogForm';
-import {UserDetailedPage} from '../../features/user/UserDetailed/UserDetailedpage';
+import UserDetailedPage from '../../features/user/UserDetailed/UserDetailedPage';
 import SettingsDashBoard from '../../features/user/Settings/SettingsDashBoard';
 import TestComponent from '../../features/testarea/TestComponent';
 import ModalManager from '../../features/modals/ModalManager';

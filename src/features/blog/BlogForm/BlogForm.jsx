@@ -1,17 +1,18 @@
 /*global google */
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Segment, Form, Button, Grid, Header } from 'semantic-ui-react';
-import {connect} from 'react-redux';
 import {createBlog, updateBlog} from '../blogActions';
-import {reduxForm, Field} from 'redux-form';
+import {reduxForm, Field, initialize} from 'redux-form';
 import {composeValidators, combineValidators, isRequired, hasLengthGreaterThan} from 'revalidate';
+import {useDispatch, useSelector} from 'react-redux';
 import cuid from 'cuid';
 import TextInput from '../../../app/common/form/TextInput';
 import TextArea from '../../../app/common/form/TextArea';
 import SelectInput from '../../../app/common/form/SelectInput';
-// import DateInput from '../../../app/common/form/DateInput';
+import DateInput from '../../../app/common/form/DateInput';
 import PlaceInput from '../../../app/common/form/PlaceInput';
-import {geocodeByAddress, getLatLng} from 'react-places-autocomplete'
+import {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
+import { useFirebase, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 
 const mapStateToProps = (state, ownProps) => {
     const blogId = ownProps.match.params.id;
@@ -27,10 +28,7 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-const mapDispatchToProps = {
-    createBlog,
-    updateBlog
-};
+
 
 const validate = combineValidators({
     title: isRequired({message: 'The blog title is required'}),
@@ -50,68 +48,66 @@ const category = [
     {key: 'culture', text: 'Culture', value: 'culture'},
     {key: 'lowCostTrip', text: 'Low Cost Trip', value: 'lowCostTrip'},
     {key: 'famousPlace', text: 'Famous Place', value: 'famousPlace'},
-]
+];
 
-class BlogForm extends Component {
-    state = {
-        cityLatLng: {},
-        addressLatLng: {}
-    }
+
+
+const BlogForm = ({change, history, match: {params}, invalid, submitting, pristine, handleSubmit}) => {
+    const dispatch = useDispatch();
+    const firebase = useFirebase();
+    const firestore = useFirestore();
+    const [cityLatLng, setCityLatLng] = useState({});
+    const [addressLatLng, setAddressLatLng] = useState({});
+    useFirestoreConnect(`blogs/&{params.id}`);
     
-    onFormSubmit = values => {
-        values.addressLatLng = this.state.addressLatLng;
-        console.log(values);
-        // evt.preventDefault();
-        if (this.props.initialValues.id) {
-            this.props.updateBlog(values);
-            this.props.history.push(`/blogs/${this.props.initialValues.id}`)
-        } else {
-            const newBlog = {
-                ...values,
-                id: cuid(),
-                postPhotoURL: '/assets/user.png',
-                postedBy:'Bob'
-            }
-            this.props.createBlog(newBlog);
-            this.props.history.push(`/blogs/${newBlog.id}`);
+    const blog = useSelector(state => (state.firestore.ordered.blogs && state.firestore.ordered.blogs.filter(e => e.id === params.id)[0]) || {});
+
+    useEffect(() => {
+        if (Object.keys(blog).length > 0) {
+            dispatch(initialize('blogForm', blog));
         }
+    }, [dispatch, blog]);
+
+
+    const handleCitySelect = selectedCity => {
+        geocodeByAddress(selectedCity)
+        .then(results => getLatLng(results[0]))
+        .then(latlng => {
+            setCityLatLng(latlng);
+        })
+        .then(() => {
+            change('city', selectedCity)
+        })
     }
 
-   handleCitySelect = selectedCity => {
-       geocodeByAddress(selectedCity)
-       .then(results => getLatLng(results[0]))
-       .then(latlng => {
-           this.setState({
-               cityLatLng: latlng
-           })
-       })
-       .then(() => {
-           this.props.change('city', selectedCity)
-       })
-   }
-
-   handleAddressSelect = selectedAddress=> {
-    geocodeByAddress(selectedAddress)
-    .then(results => getLatLng(results[0]))
-    .then(latlng => {
-        this.setState({
-            addressLatLng: latlng
+    const handleAddressSelect = selectedAddress=> {
+        geocodeByAddress(selectedAddress)
+        .then(results => getLatLng(results[0]))
+        .then(latlng => {
+            setAddressLatLng(latlng);
         })
-    })
-    .then(() => {
-        this.props.change('address', selectedAddress)
-    })
-}
+        .then(() => {
+            change('address', selectedAddress)
+        })
+    }
 
-    render() {
-        const { history, initialValues, invalid, submitting, pristine } = this.props;
+    const handleFormSubmit = async values => {
+        values.addressLatLng = addressLatLng;
+        if(blog.id) {
+            dispatch(updateBlog({firestore}, values));
+            history.push(`/blogs/${blog.id}`);
+        } else {
+            let createdBlog = await dispatch(createBlog({firebase, firestore}, values));
+            history.push(`/blogs/${createdBlog.id}`)
+        }
+    };
 
-        return (
-            <Grid>
-                <Grid.Column width={10}>
+    return (
+        <Grid>
+            <Grid.Column width={10}>
                 <Segment>
                     <Header sub color='teal' content='Blog Details'/>
-                    <Form onSubmit={this.props.handleSubmit(this.onFormSubmit)} autoComplete='off'>
+                    <Form onSubmit={handleSubmit(handleFormSubmit)} autoComplete='off'>
                         <Field name="title" component={TextInput} placeholder="Blog title" />
                         <Field name="category" component={SelectInput} options={category} placeholder="Blog category" />
                         <Field name="description" component={TextArea} placeholder="What is this post about?" />
@@ -120,37 +116,34 @@ class BlogForm extends Component {
 
                             <Field name="city" component={PlaceInput} rows={4} 
                             options={{types: ['(cities)']}}
-                            onSelect={this.handleCitySelect}
+                            onSelect={handleCitySelect}
                             placeholder="Where you traveled to ?" />
 
                             <Field name="address" component={PlaceInput} 
                             options={{
-                                location: new google.maps.LatLng(this.state.cityLatLng),
+                                location: new google.maps.LatLng(cityLatLng),
                                 radius: 1000,
                                 types: ['establishment']
                             }}
-                            onSelect={this.handleAddressSelect}
+                            onSelect={handleAddressSelect}
                             placeholder="The more explicit information" />
 
-                            {/* <Field name="date" component={DateInput} 
-                            dateFormat='dd LLL yyyy h:mm a' showTimeSelect 
-                            timeFormat='HH:mm' placeholder="When did you go?" /> */}
-                            <Field name="date" component={TextInput} type="date"
-                            placeholder="When did you go ?" />
+                            <Field name="date" type="text" component={DateInput} 
+                            dateFormat='yyyy/LL/dd HH:mm' 
+                            timeFormat='HH:mm'
+                            showTimeSelect 
+                            placeholder="When did you go?" />
 
-                        <Button disabled={invalid || submitting || pristine} 
-                                positive type="submit">Submit</Button>
-                        <Button onClick={
-                            initialValues.id ? () => history.push(`/blogs/${initialValues.id}`) 
-                                             : () => history.push(`blogs`)} 
-                                             type="button">Cancel</Button>
+
+                        <Button disabled={invalid || submitting || pristine} positive type="submit">Submit</Button>
+                        <Button onClick={history.goBack} type='button'>Cancel</Button>
                     </Form>
-            </Segment>
-                </Grid.Column>
-            </Grid>
-            
-        );
-    };
+                </Segment>
+            </Grid.Column>
+        </Grid>
+        
+    );
+    
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({form: 'blogForm', validate})(BlogForm));
+export default reduxForm({form: 'blogForm', validate})(BlogForm);

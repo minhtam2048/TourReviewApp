@@ -4,7 +4,7 @@ import BlogDetailedMap from './BlogDetailedMap'
 import { format } from 'date-fns'
 
 const BlogDetailedInfo = ({blog}) => {
-    const [isMapOpen, showMapToggle] = useState(false)
+    const [isMapOpen, showMapToggle] = useState(false);
 
     return (
         <Segment.Group>
@@ -26,8 +26,8 @@ const BlogDetailedInfo = ({blog}) => {
                     <Grid.Column width={15}>
                         {/* <span>{blog.date}</span> */}
                         <span>
-                            {format(blog.date.toDate(), 'EEEE do LLLL')}
-                        </span>
+                            {format(blog.date && blog.date.toDate(), 'EEEE do LLLL')} at {format(blog.date.toDate(), 'h:mm:a')}
+                        </span>}
                     </Grid.Column>
                 </Grid>
             </Segment>

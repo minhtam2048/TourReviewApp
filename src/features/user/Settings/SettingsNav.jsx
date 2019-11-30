@@ -9,7 +9,7 @@ const SettingsNav = () => {
                 <Header icon="user" attached inverted color="grey" content="Profile" />
                 <Menu.Item as={NavLink} to='/settings/basic'>Basic Informations</Menu.Item>
                 <Menu.Item as={NavLink} to='/settings/about'>About me</Menu.Item>
-                <Menu.Item as={NavLink} to='/settings/gallery'>My Gallery</Menu.Item>
+                <Menu.Item as={NavLink} to='/settings/photos'>My Gallery</Menu.Item>
             </Menu>
             <Menu vertical>
                 <Header icon="settings" attached inverted color="grey" content="Account" />

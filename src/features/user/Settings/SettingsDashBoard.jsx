@@ -19,7 +19,7 @@ const SettingsDashBoard = () => {
                     <Redirect exact from='/settings' to='/settings/basic' />
                     <Route path='/settings/basic' render={() => <BasicPage initialValues ={profile} />}/>
                     <Route path='/settings/about' render={() => <AboutPage initialValues ={profile} /> } />
-                    <Route path='/settings/gallery' component={GalleryPage} />
+                    <Route path='/settings/photos' component={GalleryPage} />
                     <Route path='/settings/account' component={AccountPage} />
                 </Switch>
             </Grid.Column>
