@@ -26,7 +26,7 @@ const BlogDetailedInfo = ({blog}) => {
                     <Grid.Column width={15}>
                         {/* <span>{blog.date}</span> */}
                         <span>
-                            {format(blog.date && blog.date.toDate(), 'EEEE do LLLL')} at {format(blog.date.toDate(), 'h:mm:a')}
+                            {format(blog.date && blog.date.toDate(), 'EEEE do LLLL')} at {format(blog.date.toDate(), 'h:mm')}
                         </span>}
                     </Grid.Column>
                 </Grid>

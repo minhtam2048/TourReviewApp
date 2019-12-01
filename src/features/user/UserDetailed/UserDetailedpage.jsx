@@ -12,7 +12,7 @@ import UserDetailedBlogs from './UserDetailedBlogs';
 const UserDetailedPage = ({match: {params}}) => {
     const dispatch = useDispatch();
     const firebase = useFirebase();
-    const isCurrentUser = firebase.auth().uid === params.id;
+    const isCurrentUser = firebase.auth().currentUser.uid === params.id;
     
     const userProfileQuery = useMemo(() => ({
         collection: 'users',

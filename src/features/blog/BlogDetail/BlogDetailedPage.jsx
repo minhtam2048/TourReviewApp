@@ -32,23 +32,26 @@ const BlogDetailedPage = ({match: {params}}) => {
                             state.firestore.ordered.blogs.filter(e => e.id === params.id)[0]) || {}, []);
     
     const auth = useSelector(state => state.firebase.auth, []);
+    
     const likers = blog && blog.likers && objectToArray(blog.likers).sort((a, b)=> {
         return a.joinDate.toDate() - b.joinDate.toDate();
     });
-    const isHost = blog && blog.posterUid === auth.uid;
+    const isPoster = blog && blog.posterUid === auth.uid;
     const authenticated = auth.isLoaded && !auth.isEmpty;
     const loadingBlog = useSelector(state => state.firestore.status.requesting[`blogs/${params.id}`], []);
+    
 
     return (
         
         <Grid>
             <Grid.Column width={10}>
-                <BlogDetailedHeader blog ={blog} />
+                <BlogDetailedHeader blog ={blog} isPoster={isPoster} authenticated={authenticated}/>
                 <BlogDetailedInfo blog={blog}/>
-                <BlogDetailedChat />
+                {authenticated &&
+                 <BlogDetailedChat blogId={blog.id} /> }
             </Grid.Column>
             <Grid.Column width={6}>
-                <BlogDetailedSidebar likers={blog.likers} />
+                <BlogDetailedSidebar likers={likers} />
             </Grid.Column>
         </Grid>
     )

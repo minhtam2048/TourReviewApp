@@ -34,21 +34,30 @@ const rrfProps = {
 
 console.log(store.getState())
 
+let render= () => {
+    ReactDOM.render(
+        <Provider store={store}>
+             <ReactReduxFirebaseProvider {...rrfProps}>
+                 <BrowserRouter>
+                 <ScrollToTop>
+                     <ReduxToastr timeOut={2000} preventDuplicates position="bottom-right" 
+                                 transitionIn="fadeIn" transitionOut="fadeOut" />
+                     <App />
+                 </ScrollToTop>
+                 </BrowserRouter>
+             </ReactReduxFirebaseProvider>
+         </Provider>, 
+         document.getElementById('root')
+     );
+}
 
-ReactDOM.render(
-   <Provider store={store}>
-        <ReactReduxFirebaseProvider {...rrfProps}>
-            <BrowserRouter>
-            <ScrollToTop>
-                <ReduxToastr timeOut={2000} preventDuplicates position="bottom-right" 
-                            transitionIn="fadeIn" transitionOut="fadeOut" />
-                <App />
-            </ScrollToTop>
-            </BrowserRouter>
-        </ReactReduxFirebaseProvider>
-    </Provider>, 
-    document.getElementById('root')
-);
+if(module.hot) {
+    module.hot.accept('./app/layout/App', () => {
+        setTimeout(render);
+    });
+}
+
+render();
 
 
 

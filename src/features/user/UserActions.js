@@ -82,7 +82,7 @@ export const deletePhoto = ({firebase, firestore}, photo) =>
     }
 
 export const setMainPhoto = ({firebase, firestore}, photo) =>
-    async (dispatch) => {
+    async dispatch => {
         const user = firebase.auth().currentUser;
         const today = new Date();
 
@@ -105,14 +105,14 @@ export const setMainPhoto = ({firebase, firestore}, photo) =>
             for(let i=0; i<blogQuerySnap.docs.length; i++) {
                 let blogDocRef = await firestore.collection('blogs').doc(blogQuerySnap.docs[i].data().blogId);
                 let blog = await blogDocRef.get();
-                if (blog.data().hostUid === user.uid) {
+                if (blog.data().posterUid === user.uid) {
                     batch.update(blogDocRef, {
                         postPhotoURL: photo.url,
                         [`likers.${user.uid}.photoURL`]: photo.url
                     });
                 } else {
                     batch.update(blogDocRef, {
-                        [`blogs.${user.uid}.photoURL`]: photo.url
+                        [`likers.${user.uid}.photoURL`]: photo.url
                     });
                 }
             }

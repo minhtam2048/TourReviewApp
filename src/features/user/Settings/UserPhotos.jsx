@@ -22,9 +22,9 @@ const UserPhotos = ({profile, photos, loading, deletePhoto, setMainPhoto}) => {
                 </Card>
 
                 
-                { photos && filteredPhotos.map((photo, index)=> (
+                { photos && filteredPhotos.map((photo, index) => (
                     <Card key={index}>
-                        <Image src={photo.url}  style={{height: 100}}/>
+                        <Image src={photo.url}/>
                         <div className='ui two buttons'>
                             <Button loading={loading}  onClick={() => setMainPhoto(photo)}  basic color='green'>Main</Button>
                             <Button onClick={() => deletePhoto(photo)} basic icon='trash' color='red' />

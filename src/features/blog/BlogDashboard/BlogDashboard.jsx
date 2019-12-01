@@ -1,46 +1,58 @@
-import React, { Component } from 'react';
-import { Grid } from 'semantic-ui-react';
+import React, { Component, useState, useEffect } from 'react';
+import { Grid, Loader } from 'semantic-ui-react';
 import BlogList from '../BlogList/BlogList';
-import {connect} from 'react-redux';
-import {createBlog, updateBlog, deleteBlog} from "../blogActions";
+import {useDispatch, useSelector} from 'react-redux';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import BlogActivity from '../BlogActivity/BlogActivity';
-import { firestoreConnect } from 'react-redux-firebase';
-
-const mapStateToProps = (state) => ({
-    blogs: state.firestore.ordered.blogs,
-    loading: state.async.loading
-})
-
-const mapDispatchToProps = {
-    createBlog,
-    updateBlog,
-    deleteBlog
-}
-
-class BlogDashboard extends Component {
-
-    handleDeleteBlog = (id) => {
-        this.props.deleteBlog(id);
-    }
+import { useFirestore } from 'react-redux-firebase';
+import { objectToArray } from '../../../app/common/util/helpers';
+import {getPagedBlogs} from '../blogActions';
 
 
-    render() {  
-        const {blogs, loading} = this.props;
-        if(loading) return <LoadingComponent />
-        return (
-            <Grid>
-                <Grid.Column width={10}>
-                    <BlogList 
-                        blogs={blogs} 
-                        deleteBlog={this.handleDeleteBlog} />
-                </Grid.Column>
-                <Grid.Column width={6}>
-                    <BlogActivity />
-                </Grid.Column>
-            </Grid>
-        )
-    }
-}
+const BlogDashboard = () => {
+    const dispatch = useDispatch();
+    const firestore = useFirestore();
+    const [loadingInitial, setLoadingInitial] = useState(true);
 
-export default connect(mapStateToProps, mapDispatchToProps)(firestoreConnect([{ collection: 'blogs' }])(BlogDashboard));
+    const blogs = useSelector(state => objectToArray(state.firestore.data.blogs) || []);
+    const moreBlogs = useSelector(state => state.blogs.moreBlogs);
+    const loading = useSelector(state => state.async.loading);
+    
+    useEffect(() => {
+
+        const getBlogs = async () => {
+            await dispatch(getPagedBlogs({firestore}));
+        };
+
+        if(getBlogs.length === 0) {
+            getBlogs().then(() => {
+                setLoadingInitial(false);
+            })
+        } else {
+            setLoadingInitial(false);
+        }
+    }, [dispatch, firestore, blogs]);
+
+    const handleGetNextBlogs = async () => {
+        await dispatch(getPagedBlogs({firestore}));
+    };
+
+    if(loadingInitial) return <LoadingComponent />;
+    return (
+        <Grid>
+            <Grid.Column width={10}>
+                <BlogList 
+                    blogs={blogs} loading={loading} moreBlogs ={moreBlogs} getNextBlogs={handleGetNextBlogs}
+                    deleteBlog={this.handleDeleteBlog} />
+            </Grid.Column>
+            <Grid.Column width={6}>
+                <BlogActivity />
+            </Grid.Column>
+            <Grid.Column width={10}>
+                <Loader active={loading} />
+            </Grid.Column>
+        </Grid>
+    ); 
+};
+
+export default BlogDashboard;

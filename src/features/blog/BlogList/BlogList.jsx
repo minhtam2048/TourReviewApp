@@ -1,20 +1,16 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import BlogListItem from './BlogListItem'
+import InfiniteScroll from 'react-infinite-scroller';
 
-class BlogList extends Component {
-    render() {
-        const {blogs, deleteBlog } = this.props;
-        return (
-            <Fragment>
-                { blogs && blogs.map(blog => (
-                    <BlogListItem 
-                        key={blog.id} 
-                        blog={blog} 
-                        deleteBlog={deleteBlog} />
+const BlogList = ({blogs, moreBlogs, getNextBlogs, loading}) => 
+    <Fragment>
+        {blogs && blogs.length !== 0 && 
+            <InfiniteScroll pageStart={0} loadMore={getNextBlogs} hasMore={!loading && moreBlogs} initialLoad={false}>
+                {blogs && blogs.map(blog => (
+                    <BlogListItem key={blog.id} blog={blog} />
                 ))}
-            </Fragment>
-        )
-    }
-}
+            </InfiniteScroll>
+        }
+    </Fragment>
 
-export default BlogList
+export default BlogList;

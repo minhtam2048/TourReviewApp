@@ -19,7 +19,7 @@ const blogImageTextStyle = {
     color: 'white'
 };
 
-const BlogDetailedHeader = ({blog, authenticated}) => {
+const BlogDetailedHeader = ({blog, authenticated, isPoster}) => {
     const firestore = useFirestore();
     const firebase = useFirebase();
     const dispatch = useDispatch();
@@ -29,6 +29,7 @@ const BlogDetailedHeader = ({blog, authenticated}) => {
         <Segment.Group>
             <Segment basic attached="top" style={{padding: '0'}}>
                 <Image src={`/assets/categoryImages/HoiAn2.jpeg`} fluid style={blogImageStyle} />
+
                 <Segment basic style={blogImageTextStyle}>
                     <Item.Group>
                        <Item>
@@ -43,9 +44,10 @@ const BlogDetailedHeader = ({blog, authenticated}) => {
             </Segment>
 
             <Segment attached="bottom">
-                <Button>Cancel</Button>
+                <Button>Dislike</Button>
                 <Button color='teal' >Like</Button>
-                <Button as={Link} to={`/manage/${blog.id}`} color='orange' floated="right">Manage Blog</Button>
+                {isPoster && 
+                <Button as={Link} to={`/manage/${blog.id}`} color='orange' floated="right">Manage Blog</Button>}
             </Segment>
 
         </Segment.Group>

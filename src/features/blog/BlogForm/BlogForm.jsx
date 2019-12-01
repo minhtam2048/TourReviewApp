@@ -5,7 +5,6 @@ import {createBlog, updateBlog} from '../blogActions';
 import {reduxForm, Field, initialize} from 'redux-form';
 import {composeValidators, combineValidators, isRequired, hasLengthGreaterThan} from 'revalidate';
 import {useDispatch, useSelector} from 'react-redux';
-import cuid from 'cuid';
 import TextInput from '../../../app/common/form/TextInput';
 import TextArea from '../../../app/common/form/TextArea';
 import SelectInput from '../../../app/common/form/SelectInput';
@@ -14,19 +13,6 @@ import PlaceInput from '../../../app/common/form/PlaceInput';
 import {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
 import { useFirebase, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 
-const mapStateToProps = (state, ownProps) => {
-    const blogId = ownProps.match.params.id;
-
-   let blog= {};
-
-    if (blogId && state.blogs.length > 0) {
-        blog = state.blogs.filter(blog => blog.id === blogId)[0];
-    }
-
-    return {
-        initialValues: blog
-    }
-}
 
 
 
@@ -58,7 +44,8 @@ const BlogForm = ({change, history, match: {params}, invalid, submitting, pristi
     const firestore = useFirestore();
     const [cityLatLng, setCityLatLng] = useState({});
     const [addressLatLng, setAddressLatLng] = useState({});
-    useFirestoreConnect(`blogs/&{params.id}`);
+    
+    useFirestoreConnect(`blogs/${params.id}`);
     
     const blog = useSelector(state => (state.firestore.ordered.blogs && state.firestore.ordered.blogs.filter(e => e.id === params.id)[0]) || {});
 
@@ -69,7 +56,7 @@ const BlogForm = ({change, history, match: {params}, invalid, submitting, pristi
     }, [dispatch, blog]);
 
 
-    const handleCitySelect = selectedCity => {
+    const handleCitySelect = (selectedCity) => {
         geocodeByAddress(selectedCity)
         .then(results => getLatLng(results[0]))
         .then(latlng => {
@@ -80,7 +67,7 @@ const BlogForm = ({change, history, match: {params}, invalid, submitting, pristi
         })
     }
 
-    const handleAddressSelect = selectedAddress=> {
+    const handleAddressSelect = (selectedAddress) => {
         geocodeByAddress(selectedAddress)
         .then(results => getLatLng(results[0]))
         .then(latlng => {
@@ -109,12 +96,14 @@ const BlogForm = ({change, history, match: {params}, invalid, submitting, pristi
                     <Header sub color='teal' content='Blog Details'/>
                     <Form onSubmit={handleSubmit(handleFormSubmit)} autoComplete='off'>
                         <Field name="title" component={TextInput} placeholder="Blog title" />
+                        
                         <Field name="category" component={SelectInput} options={category} placeholder="Blog category" />
+                        
                         <Field name="description" component={TextArea} placeholder="What is this post about?" />
                         
                         <Header sub color='teal' content='Location Details' />
 
-                            <Field name="city" component={PlaceInput} rows={4} 
+                            <Field name="city" component={PlaceInput}
                             options={{types: ['(cities)']}}
                             onSelect={handleCitySelect}
                             placeholder="Where you traveled to ?" />

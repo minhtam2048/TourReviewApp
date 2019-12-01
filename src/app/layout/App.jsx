@@ -10,20 +10,24 @@ import UserDetailedPage from '../../features/user/UserDetailed/UserDetailedPage'
 import SettingsDashBoard from '../../features/user/Settings/SettingsDashBoard';
 import TestComponent from '../../features/testarea/TestComponent';
 import ModalManager from '../../features/modals/ModalManager';
+import LoadingComponent from './LoadingComponent';
+import {useSelector} from 'react-redux';
 
-class App extends Component {
-    render() {
-        return (
-            <Fragment>
-                <ModalManager />
+const App = () => {
+    const auth = useSelector(state => state.firebase.auth, []);
+    if(!auth.isLoaded && auth.isEmpty) return <LoadingComponent />
+    
+    return (
+        <Fragment>
+            <ModalManager />
+            <Switch>
                 <Route exact path='/' component={HomePage}/>
-                <Route
-                path='/(.+)'
-                render={() => (
+            </Switch>
+            <Route path='/(.+)' render={() => (
                 <Fragment>
                     <NavBar />
                     <Container className="main">
-                        <Switch key={this.props.location.key}>
+                        <Switch>
                             <Route exact path='/blogs' component={BlogDashboard} />
                             <Route path='/blogs/:id' component={BlogDetailedPage} />
                             <Route path='/profile/:id' component={UserDetailedPage}/>
@@ -35,9 +39,9 @@ class App extends Component {
                 </Fragment>
                 )} 
             />
-            </Fragment>
-        );
-    }
+        </Fragment>
+    );
+    
 }
 
 export default withRouter(App);
