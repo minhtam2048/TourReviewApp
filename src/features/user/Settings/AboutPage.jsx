@@ -23,13 +23,13 @@ const interests = [
 const AboutPage = ({ pristine, submitting, handleSubmit }) => {
     const dispatch = useDispatch();
     const firebase = useFirebase();
+
     const handleUpdateAboutInfor = useCallback (
         (user) => {
             return dispatch(updateProfile({firebase}, user))
         }, [firebase, dispatch]
-    )
+    );
     
-
   return (
     <Segment>
       <Header dividing size="large" content="About Me" />
@@ -42,8 +42,15 @@ const AboutPage = ({ pristine, submitting, handleSubmit }) => {
             name="status"
             component={RadioInput}
             type="radio"
-            value="relationship"
-            label="Relationship"
+            value="single"
+            label="Single"
+          />
+          <Field
+          name="status"
+          component={RadioInput}
+          type="radio"
+          value="relationship"
+          label="Relationship"
           />
           <Field
             name="status"
@@ -52,6 +59,7 @@ const AboutPage = ({ pristine, submitting, handleSubmit }) => {
             value="married"
             label="Married"
           />
+
         </Form.Group>
         <Divider />
         <label>Tell us about yourself</label>
@@ -85,4 +93,4 @@ const AboutPage = ({ pristine, submitting, handleSubmit }) => {
   );
 };
 
-export default reduxForm({ form: 'userProfile', enableReinitialize: true })(AboutPage);
+export default reduxForm({ form: 'userProfile', enableReinitialize: true, destroyOnUnmount: false })(AboutPage);

@@ -13,14 +13,14 @@ const UserDetailedBlogs = ({changeTab, blogs, loading}) => {
     return (
         <Grid.Column width={12}>
         <Segment attached loading={loading}>
-            <Header icon="calendar" content="Events" />
+            <Header icon="calendar" content="Blogs" />
             <Tab onTabChange={(e, data) => changeTab(e, data)} panes={panes} menu={{secondary: true, pointing: true}}/>
-            <br/>
+        <br/>
 
             <Card.Group itemsPerRow={5}>
                 {blogs &&
                 blogs.map(blog => (
-                    <Card as={Link} to={`/events/${blog.id}`} key={blog.id}>
+                    <Card as={Link} to={`/blogs/${blog.id}`} key={blog.id}>
                         <Image src={`/assets/categoryImages/${blog.category}.jpg`} />
                         <Card.Content>
                             <Card.Header textAlign='center'>{blog.title}</Card.Header>

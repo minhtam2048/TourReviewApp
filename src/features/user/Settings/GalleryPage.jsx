@@ -15,7 +15,7 @@ const GalleryPage = () => {
         const firestore = useFirestore();
         const dispatch = useDispatch();
         
-        const auth = useSelector(state => state.firebase.auth, []);
+        const auth = useSelector(state => state.firebase.auth);
 
         console.log(auth);
 
@@ -26,6 +26,7 @@ const GalleryPage = () => {
             storeAs: 'photos'
         }), [auth.uid]);
         
+    
         useFirestoreConnect(userPhotosQuery);
         
         //mapStateToProps

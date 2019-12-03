@@ -9,9 +9,9 @@ import GalleryPage from './GalleryPage';
 import AccountPage from './AccountPage';
 
 
-
 const SettingsDashBoard = () => {
     const profile = useSelector(state => state.firebase.profile);
+
     return (
         <Grid>
             <Grid.Column width={12}>

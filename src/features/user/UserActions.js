@@ -37,7 +37,7 @@ export const uploadProfileImage = ({firebase, firestore}, file) =>
             let downloadURL = await uploadedFile.uploadTaskSnapshot.ref.getDownloadURL();
     
             let userDocument = await firestore.get(`users/${user.uid}`);
-            
+                
             if(!userDocument.data().photoURL) {
                 await firebase.updateProfile({
                     photoURL: downloadURL
@@ -58,7 +58,7 @@ export const uploadProfileImage = ({firebase, firestore}, file) =>
 
             dispatch(asyncActionFinish());
         } catch (error) {
-            console.log(error)
+            console.log(error);
             dispatch(asyncActionError());
         }
     };
@@ -100,7 +100,6 @@ export const setMainPhoto = ({firebase, firestore}, photo) =>
             let blogQuery = await blogLikerRef.where('userUid', '==', user.uid).where('blogDate', '<=', today);
 
             let blogQuerySnap = await blogQuery.get();
-            console.log(blogQuerySnap);
 
             for(let i=0; i<blogQuerySnap.docs.length; i++) {
                 let blogDocRef = await firestore.collection('blogs').doc(blogQuerySnap.docs[i].data().blogId);
@@ -116,34 +115,30 @@ export const setMainPhoto = ({firebase, firestore}, photo) =>
                     });
                 }
             }
-            console.log(batch);
             await batch.commit();
             dispatch(asyncActionFinish());
 
         } catch(error) {
             console.log(error);
             dispatch(asyncActionError());
-            // throw new Error('Problem setting main photo');
+            throw new Error('Problem setting main photo');
         }
     }
 
-    export const getUserBlogs = (userUid, activeTab) => async (
-        dispatch,
-        getState
-    ) => {
+    export const getUserBlogs = (userUid, activeTab) => async (dispatch, getState) => {
         dispatch(asyncActionStart());
         const firestore = firebase.firestore();
         const today = new Date(Date.now());
         let blogsRef = firestore.collection('blog_liker');
         let query;
         switch (activeTab) {
-            case 1: // past events
-                query = blogsRef
-                    .where('userUid', '==', userUid)
-                    .where('blogDate', '<=', today)
-                    .orderBy('blogDate', 'desc');
-                break;
-            case 2: // hosted events
+            // case 1: // past blogs
+            //     query = blogsRef
+            //         .where('userUid', '==', userUid)
+            //         .where('blogDate', '<=', today)
+            //         .orderBy('blogDate', 'desc');
+            //     break;
+            case 1: // posted blogs
                 query = blogsRef
                     .where('userUid', '==', userUid)
                     .where('poster', '==', true)
@@ -161,11 +156,11 @@ export const setMainPhoto = ({firebase, firestore}, photo) =>
             let blogs = [];
     
             for (let i = 0; i < querySnap.docs.length; i++) {
-                let evt = await firestore
+                let blog = await firestore
                     .collection('blogs')
                     .doc(querySnap.docs[i].data().blogId)
                     .get();
-                blogs.push({ ...evt.data(), id: evt.id });
+                blogs.push({ ...blog.data(), id: blog.id });
             }
     
             dispatch({ type: GET_USER_BLOGS, payload: { blogs } });

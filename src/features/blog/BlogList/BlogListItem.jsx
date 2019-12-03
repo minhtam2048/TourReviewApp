@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Segment, Item, Icon, List, Button } from 'semantic-ui-react';
 import BlogListLiker from './BlogListLiker';
 import {Link} from'react-router-dom';
@@ -12,7 +12,7 @@ const BlogListItem = ({blog}) =>
                 <Item>
                     <Item.Image size="tiny" circular src={blog.postPhotoURL}/>
                     <Item.Content>
-                        <Item.Header>{blog.title}</Item.Header>
+                        <Item.Header as={Link} to={`blogs/${blog.id}`}>{blog.title}</Item.Header>
                         <Item.Description>
                             Posted By <Link to={`/profile/${blog.posterUid}`}>{blog.postedBy}</Link>
                         </Item.Description>

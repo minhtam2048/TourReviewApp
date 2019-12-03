@@ -1,5 +1,5 @@
 import { createReducer } from "../../app/common/util/reducerUtils";
-import { CREATE_BLOG, UPDATE_BLOG, DELETE_BLOG, FETCH_BLOGS, FETCH_MORE_BLOGS, MORE_BLOGS } from "./blogConstants";
+import { CREATE_BLOG, UPDATE_BLOG, DELETE_BLOG, FETCH_BLOGS, MORE_BLOGS } from "./blogConstants";
 
 
 const initialState =  {
@@ -12,11 +12,11 @@ export const createBlog = (state, payload) => {
 }
 
 export const updateBlog = (state, payload) => {
-    return [...state.filter(blog => blog.id !== payload.blog.id), Object.assign({}, payload.blog)];
+    return [...state.blogs.filter(blog => blog.id !== payload.blog.id), Object.assign({}, payload.blog)];
 };
 
 export const deleteBlog = (state, payload) => {
-    return [...state.filter(blog => blog.id !== payload.blogId)];
+    return [...state.blogs.filter(blog => blog.id !== payload.blogId)];
 }
 
 const fetchBlogs = (state, payload) => {

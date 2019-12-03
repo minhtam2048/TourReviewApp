@@ -12,7 +12,7 @@ import DateInput from '../../../app/common/form/DateInput';
 import PlaceInput from '../../../app/common/form/PlaceInput';
 import RadioInput from '../../../app/common/form/RadioInput';
 
-const BasicPage = ({pristine, submitting, handleSubmit}) => {
+const BasicPage = ({pristine, submitting, handleSubmit, initialValues}) => {
     const dispatch = useDispatch();
     const firebase = useFirebase();
     
@@ -20,7 +20,7 @@ const BasicPage = ({pristine, submitting, handleSubmit}) => {
         (user) => {
             return dispatch(updateProfile({firebase}, user))
         }, [firebase, dispatch]
-    )
+    );
     
         return (
             <Segment>
@@ -36,7 +36,7 @@ const BasicPage = ({pristine, submitting, handleSubmit}) => {
                     </Form.Group>
 
                     <Field width={8} name='dateOfBirth' 
-                           type='text' component={DateInput} 
+                           component={DateInput} 
                            placeholder='Date of birth'
                            dateFormat='dd LLL yyyy'
                            showYearDropdown={true}

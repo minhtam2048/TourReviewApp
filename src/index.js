@@ -9,7 +9,6 @@ import { Provider } from 'react-redux';
 import ReduxToastr from 'react-redux-toastr';
 import { configureStore } from './app/store/configureStore';
 import ScrollToTop from './app/common/util/ScrollToTop';
-// import { loadBlogs } from './features/blog/blogActions';
 import {ReactReduxFirebaseProvider} from 'react-redux-firebase';
 import {createFirestoreInstance} from 'redux-firestore';
 import firebase from './app/config/firebase';
@@ -32,24 +31,23 @@ const rrfProps = {
     createFirestoreInstance
 };
 
-console.log(store.getState())
 
-let render= () => {
+let render = () => {
     ReactDOM.render(
         <Provider store={store}>
              <ReactReduxFirebaseProvider {...rrfProps}>
                  <BrowserRouter>
-                 <ScrollToTop>
-                     <ReduxToastr timeOut={2000} preventDuplicates position="bottom-right" 
-                                 transitionIn="fadeIn" transitionOut="fadeOut" />
-                     <App />
-                 </ScrollToTop>
+                    <ScrollToTop>
+                        <ReduxToastr timeOut={2000} preventDuplicates position="bottom-right" 
+                                    transitionIn="fadeIn" transitionOut="fadeOut" />
+                        <App />
+                    </ScrollToTop>
                  </BrowserRouter>
              </ReactReduxFirebaseProvider>
          </Provider>, 
          document.getElementById('root')
-     );
-}
+    );
+};
 
 if(module.hot) {
     module.hot.accept('./app/layout/App', () => {

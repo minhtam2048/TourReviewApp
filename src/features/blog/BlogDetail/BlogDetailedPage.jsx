@@ -7,6 +7,7 @@ import BlogDetailedSidebar from './BlogDetailedSidebar';
 import {useSelector} from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { objectToArray } from '../../../app/common/util/helpers';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 
 // const mapStateToProps = (state, ownProps) => {
@@ -33,13 +34,14 @@ const BlogDetailedPage = ({match: {params}}) => {
     
     const auth = useSelector(state => state.firebase.auth, []);
     
-    const likers = blog && blog.likers && objectToArray(blog.likers).sort((a, b)=> {
+    const likers = blog && blog.likers && objectToArray(blog.likers).sort((a, b) => {
         return a.joinDate.toDate() - b.joinDate.toDate();
     });
     const isPoster = blog && blog.posterUid === auth.uid;
     const authenticated = auth.isLoaded && !auth.isEmpty;
     const loadingBlog = useSelector(state => state.firestore.status.requesting[`blogs/${params.id}`], []);
     
+    if(loadingBlog) return <LoadingComponent />
 
     return (
         

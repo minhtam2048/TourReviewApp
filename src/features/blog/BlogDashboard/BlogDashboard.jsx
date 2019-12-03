@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Loader } from 'semantic-ui-react';
 import BlogList from '../BlogList/BlogList';
 import {useDispatch, useSelector} from 'react-redux';
@@ -17,33 +17,31 @@ const BlogDashboard = () => {
     const blogs = useSelector(state => objectToArray(state.firestore.data.blogs) || []);
     const moreBlogs = useSelector(state => state.blogs.moreBlogs);
     const loading = useSelector(state => state.async.loading);
-    
+        
     useEffect(() => {
-
         const getBlogs = async () => {
             await dispatch(getPagedBlogs({firestore}));
         };
-
-        if(getBlogs.length === 0) {
+            
+        if(blogs.length === 0) {
             getBlogs().then(() => {
                 setLoadingInitial(false);
             })
         } else {
             setLoadingInitial(false);
         }
-    }, [dispatch, firestore, blogs]);
+    }, [blogs.length, dispatch, firestore]);
 
     const handleGetNextBlogs = async () => {
         await dispatch(getPagedBlogs({firestore}));
     };
 
     if(loadingInitial) return <LoadingComponent />;
+
     return (
         <Grid>
             <Grid.Column width={10}>
-                <BlogList 
-                    blogs={blogs} loading={loading} moreBlogs ={moreBlogs} getNextBlogs={handleGetNextBlogs}
-                    deleteBlog={this.handleDeleteBlog} />
+                <BlogList blogs={blogs} loading={loading} moreBlogs ={moreBlogs} getNextBlogs={handleGetNextBlogs} />
             </Grid.Column>
             <Grid.Column width={6}>
                 <BlogActivity />

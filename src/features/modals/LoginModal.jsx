@@ -1,16 +1,13 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Modal} from 'semantic-ui-react';
-import {connect} from 'react-redux';
-
+import {useDispatch} from 'react-redux';
 import LoginForm from '../auth/Login/LoginForm';
 import {closeModal} from './modalActions';
 
-const mapDispatchToProps = {closeModal};
-
-class LoginModal extends Component {
-    render() {
-        return (
-            <Modal size='mini' open={true} onClose={this.props.closeModal}>
+const LoginModal = () => {
+    const dispatch = useDispatch();
+    return (
+        <Modal size='mini' open={true} onClose={() => dispatch(closeModal)}>
                 <Modal.Header>
                     Login to this tour review app
                 </Modal.Header>
@@ -20,8 +17,7 @@ class LoginModal extends Component {
                     </Modal.Description>
                 </Modal.Content>
             </Modal>
-        );
-    }
-}
+    );    
+};
 
-export default connect(null, mapDispatchToProps)(LoginModal);
+export default LoginModal;

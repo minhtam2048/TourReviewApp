@@ -1,6 +1,6 @@
-import { UPDATE_BLOG, DELETE_BLOG, FETCH_BLOGS, MORE_BLOGS } from "./blogConstants"
-import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/asyncActions"
-import { fetchSampleData } from "../../app/data/mockAPI"
+import { UPDATE_BLOG, DELETE_BLOG, MORE_BLOGS } from "./blogConstants"
+import { asyncActionStart, asyncActionFinish } from "../async/asyncActions"
+// import { fetchSampleData } from "../../app/data/mockAPI"
 import { toastr } from "react-redux-toastr"
 import { createNewBlog, objectToArray } from "../../app/common/util/helpers"
 
@@ -65,7 +65,7 @@ export const deleteBlog = (blogId) => {
 // }
 
 export const getPagedBlogs = ({firestore}) => 
-    async(dispatch, getState) => {
+    async (dispatch, getState) => {
         dispatch(asyncActionStart());
         const LIMIT = 5;
         let nextBlogSnapshot = null;
@@ -88,4 +88,5 @@ export const getPagedBlogs = ({firestore}) =>
             dispatch({type: MORE_BLOGS});
         }
         dispatch(asyncActionFinish());
-    }
+    };
+    

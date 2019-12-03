@@ -11,7 +11,7 @@ const asyncActionStarted = (state, payload) => {
         ...state,
         loading: true,
         elementName: payload
-    }
+    };
 }
 
 const asyncActionFinished = (state) => {
